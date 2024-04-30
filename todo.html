@@ -1,0 +1,83 @@
+<!-- <!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Simple To-Do List with Checkbox</title>
+<style>
+    .done {
+        text-decoration: line-through;
+        color: grey;
+    }
+</style>
+</head>
+<body>
+<h1>To-Do List</h1>
+<input type="text" id="taskInput" placeholder="Add new task">
+<button onclick="addTask()">Add Task</button>
+<ul id="taskList"></ul>
+
+<script>
+function addTask() {
+    const input = document.getElementById('taskInput');
+    const newTask = input.value.trim();
+    if (newTask) {
+        const li = document.createElement('li');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.onchange = function() {
+            if (this.checked) {
+                li.classList.add('done');
+            } else {
+                li.classList.remove('done');
+            }
+        };
+
+        li.textContent = newTask;
+        li.insertBefore(checkbox, li.firstChild); // Insert checkbox before the task text
+        document.getElementById('taskList').appendChild(li);
+        input.value = ''; // Clear the input after adding
+    } else {
+        alert("Please enter a task!");
+    }
+}
+</script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Simple To-Do List with Removal Option</title>
+</head>
+<body>
+<h1>To-Do List</h1>
+<input type="text" id="taskInput" placeholder="Add new task">
+<button onclick="addTask()">Add Task</button>
+<ul id="taskList"></ul>
+
+<script>
+function addTask() {
+    const input = document.getElementById('taskInput');
+    const newTask = input.value.trim();
+    if (newTask) {
+        const li = document.createElement('li');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.onchange = function() {
+            if (this.checked) {
+                li.remove(); // Remove the task when the checkbox is checked
+            }
+        };
+
+        li.textContent = newTask + " "; // Add a space before the checkbox for better readability
+        li.appendChild(checkbox); // Append checkbox after the task text
+        document.getElementById('taskList').appendChild(li);
+        input.value = ''; // Clear the input after adding
+    } else {
+        alert("Please enter a task!");
+    }
+}
+</script>
+</body>
+</html> -->

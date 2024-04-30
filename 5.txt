@@ -1,0 +1,59 @@
+-- Create a new database named lab11
+CREATE DATABASE lab11;
+
+-- Select the newly created database for use
+USE lab11;
+
+-- Create a table named Student
+CREATE TABLE Student (
+    SNAME VARCHAR(255),
+    REGNO VARCHAR(255),
+    DEPT VARCHAR(50),
+    YEAR INT,
+    CCODE VARCHAR(50),
+    MARK INT,
+    GRADE CHAR(1)
+);
+
+-- Insert records into the Student table
+INSERT INTO Student (SNAME, REGNO, DEPT, YEAR, CCODE, MARK, GRADE) VALUES
+('Amritansh Sharma', '22BCE1479', 'CSE', 2, 'BCSE302L', 88, 'A'),
+('Rohit Kumar', '22BCE1480', 'CSE', 2, 'BCSE303L', 92, 'S'),
+('Priya Singh', '22BCE1481', 'ECE', 2, 'BCSE302L', 76, 'B'),
+('Anjali Rao', '22BCE1482', 'CSE', 2, 'BCSE304L', 65, 'C'),
+('Vikram Patel', '22BCE1483', 'ECE', 2, 'BCSE303L', 85, 'A'),
+('Suman Reddy', '22BCE1484', 'CSE', 2, 'BCSE302L', 58, 'B'),
+('Neha Iyer', '22BCE1485', 'ECE', 2, 'BCSE305L', 45, 'D');
+
+-- Select students based on course codes
+SELECT SNAME FROM Student WHERE CCODE IN ('BCSE302L', 'BCSE303L');
+
+-- Select students based on course codes not included
+SELECT SNAME FROM Student WHERE CCODE NOT IN ('BCSE302L', 'BCSE303L');
+
+-- Select student names and departments for students with grades 'S' or 'A'
+SELECT SNAME, DEPT FROM Student WHERE GRADE IN ('S', 'A');
+
+-- Select student names and departments for students with grades 'C' or 'A'
+SELECT SNAME, DEPT FROM Student WHERE GRADE IN ('C', 'A');
+
+-- Select student names and course codes for students with marks between 50 and 85
+SELECT SNAME, CCODE FROM Student WHERE MARK BETWEEN 50 AND 85;
+
+-- Select student registration numbers and course codes for students with marks between 85 and 100
+SELECT REGNO, CCODE FROM Student WHERE MARK BETWEEN 85 AND 100;
+
+-- Count the number of students in each department
+SELECT DEPT, COUNT(*) AS Total_Students FROM Student GROUP BY DEPT;
+
+-- Update marks for students in a specific course code
+UPDATE Student SET MARK = MARK + 5 WHERE CCODE = 'BCSE303L';
+
+-- Update marks for students not in a specific course code
+UPDATE Student SET MARK = MARK + 2 WHERE CCODE <> 'BCSE303L';
+
+-- Delete students where the course code is NULL or empty
+DELETE FROM Student WHERE CCODE IS NULL OR CCODE = '';
+
+-- Select registration numbers for students with grade 'S'
+SELECT REGNO FROM Student WHERE GRADE = 'S';

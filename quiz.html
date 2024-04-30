@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz with Radio Buttons</title>
+<style>
+  body { font-family: Arial, sans-serif; }
+  .question { margin-bottom: 10px; }
+  .options label { margin-right: 10px; }
+  button { margin-top: 20px; }
+</style>
+</head>
+<body>
+<h1>Quiz</h1>
+<form id="quiz-form" onsubmit="submitAnswer(); return false;">
+  <div class="question" id="question"></div>
+  <div class="options" id="options"></div>
+  <button type="submit">Submit Answer</button>
+</form>
+<div id="result"></div>
+
+<script>
+const quizQuestions = [
+  {
+    question: "What is the capital of France?",
+    options: ["Paris", "London", "Berlin", "Madrid"],
+    answer: "Paris"
+  },
+  {
+    question: "What is 2 + 2?",
+    options: ["3", "4", "5", "6"],
+    answer: "4"
+  },
+  {
+    question: "Who wrote 'Hamlet'?",
+    options: ["Charles Dickens", "William Shakespeare", "Leo Tolstoy", "Mark Twain"],
+    answer: "William Shakespeare"
+  }
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+function displayQuestion() {
+  if (currentQuestionIndex < quizQuestions.length) {
+    const questionObj = quizQuestions[currentQuestionIndex];
+    const questionEl = document.getElementById('question');
+    questionEl.textContent = questionObj.question;
+
+    const optionsEl = document.getElementById('options');
+    optionsEl.innerHTML = ''; // Clear previous options
+
+    questionObj.options.forEach((option, index) => {
+      const optionInput = document.createElement('input');
+      optionInput.type = 'radio';
+      optionInput.name = 'quizOption';
+      optionInput.value = option;
+      optionInput.id = 'option' + index;
+
+      const label = document.createElement('label');
+      label.htmlFor = 'option' + index;
+      label.textContent = option;
+
+      optionsEl.appendChild(optionInput);
+      optionsEl.appendChild(label);
+      optionsEl.appendChild(document.createElement('br'));
+    });
+  } else {
+    showResults();
+  }
+}
+
+function submitAnswer() {
+  const selectedOption = document.querySelector('input[name="quizOption"]:checked');
+  if (!selectedOption) {
+    alert("Please select an option!");
+    return;
+  }
+
+  const question = quizQuestions[currentQuestionIndex];
+  if (selectedOption.value === question.answer) {
+    score++;
+  }
+
+  currentQuestionIndex++;
+  if (currentQuestionIndex < quizQuestions.length) {
+    displayQuestion();
+  } else {
+    showResults();
+  }
+}
+
+function showResults() {
+  const result = document.getElementById('result');
+  result.textContent = `Quiz completed! Your score is ${score} out of ${quizQuestions.length}.`;
+  const form = document.getElementById('quiz-form');
+  form.style.display = 'none'; // Hide the form
+}
+
+// Initial call to display the first question
+displayQuestion();
+</script>
+</body>
+</html>

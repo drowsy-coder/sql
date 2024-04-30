@@ -1,0 +1,130 @@
+-- 1. Create the following tables or schemas
+CREATE TABLE Stud (
+    sname VARCHAR2(100),
+    regno NUMBER,
+    dept VARCHAR2(50),
+    year NUMBER,
+    Mark1 NUMBER,
+    Mark2 NUMBER,
+    Mark3 NUMBER,
+    Sum NUMBER
+);
+
+CREATE TABLE Faculty (
+    fname VARCHAR2(100),
+    fid NUMBER,
+    designation VARCHAR2(100)
+);
+
+CREATE TABLE Course (
+    cname VARCHAR2(100),
+    ccode VARCHAR2(50)
+);
+
+-- 2. View the structure of each table
+DESC Stud;
+DESC Faculty;
+DESC Course;
+
+-- 3. Change the data type of the column regno as VARCHAR2(10) in stud table
+ALTER TABLE Stud MODIFY (regno VARCHAR2(10));
+
+-- 4. View the structure of stud table
+DESC Stud;
+
+-- 5. Add columns such as Total and Average in stud table
+ALTER TABLE Stud ADD (Total NUMBER);
+ALTER TABLE Stud ADD (Average NUMBER);
+
+-- 6. View the structure of stud table
+DESC Stud;
+
+-- 7. Delete the column sum from stud table
+ALTER TABLE Stud DROP COLUMN Sum;
+
+-- 8. View the structure of stud table
+DESC Stud;
+
+-- 9. Add new columns Department and Salary in the Faculty table
+ALTER TABLE Faculty ADD (Department VARCHAR2(50));
+ALTER TABLE Faculty ADD (Salary NUMBER);
+
+-- 10. View the structure of Faculty table
+DESC Faculty;
+
+-- 11. Drop the table course
+DROP TABLE Course;
+
+-- 12. View the structure of course table (This will result in an error as the table no longer exists)
+--DESC Course; -- Uncomment to check, will cause an error
+
+-- 13. Rename the table stud as Student
+ALTER TABLE Stud RENAME TO Student;
+
+-- 14. Create the table Course
+CREATE TABLE Course (
+    cname VARCHAR2(100),
+    ccode VARCHAR2(50)
+);
+
+-- DML Commands
+-- 15. Insert 3 records in each table
+INSERT INTO Student VALUES ('Alice', '001', 'CSE', 2, 75, 85, 95, NULL, NULL);
+INSERT INTO Student VALUES ('Bob', '002', 'ECE', 3, 65, 75, 85, NULL, NULL);
+INSERT INTO Student VALUES ('Carol', '003', 'MECH', 4, 85, 95, 100, NULL, NULL);
+
+INSERT INTO Faculty VALUES ('Dr. Smith', 101, 'Professor', 'CSE', NULL);
+INSERT INTO Faculty VALUES ('Dr. Jones', 102, 'Assistant Professor', 'ECE', NULL);
+INSERT INTO Faculty VALUES ('Dr. Brown', 103, 'Associate Professor', 'MECH', NULL);
+
+INSERT INTO Course VALUES ('Database Systems', 'DB101');
+INSERT INTO Course VALUES ('Operating Systems', 'OS102');
+INSERT INTO Course VALUES ('Computer Networks', 'CN103');
+
+-- 16. Display the content of all the schemas
+SELECT * FROM Student;
+SELECT * FROM Faculty;
+SELECT * FROM Course;
+
+-- 17. Apply and identify the difference between Truncate and Drop command on Course table
+-- TRUNCATE TABLE Course; -- Removes all rows but keeps the structure
+-- DROP TABLE Course; -- Removes the table entirely
+
+-- 18. Insert 2 records (read the data from user) in each table
+-- This step needs to be done interactively or by using application logic to capture user input
+
+-- 19. Display the student details belongs to CSE department
+SELECT * FROM Student WHERE dept = 'CSE';
+
+-- 20. Display the list of professors with department from faculty table
+SELECT fname, Department FROM Faculty;
+
+-- 21. Display the list of professors from CSE department
+SELECT fname FROM Faculty WHERE Department = 'CSE';
+
+-- 22. Display the list of faculty whose salary is greater than Rs.55,000
+SELECT * FROM Faculty WHERE Salary > 55000;
+
+-- 23. Compute total and average of all the students
+UPDATE Student SET Total = Mark1 + Mark2 + Mark3, Average = (Mark1 + Mark2 + Mark3) / 3;
+
+-- 24. View the content of student table
+SELECT * FROM Student;
+
+-- 25. Change the department as CSE whose name is CHIRAG in student table
+UPDATE Student SET dept = 'CSE' WHERE sname = 'CHIRAG';
+
+-- 26. Delete the students details belongs to ECE department
+DELETE FROM Student WHERE dept = 'ECE';
+
+-- 27. Display the course detail of the course DBMS
+SELECT * FROM Course WHERE cname = 'Database Systems';
+
+-- 28. Display the faculty detail in ascending order based on department
+SELECT * FROM Faculty ORDER BY Department ASC;
+
+-- 29. Display the student details department wise
+SELECT * FROM Student ORDER BY dept;
+
+-- 30. Display the course details in ascending order based on course code
+SELECT * FROM Course ORDER BY ccode;

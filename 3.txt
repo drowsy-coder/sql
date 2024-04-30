@@ -1,0 +1,59 @@
+-- 1. Create a student table as per the following schema
+CREATE TABLE Student (
+    Name VARCHAR2(100),
+    Regno VARCHAR2(20),
+    Dept VARCHAR2(50),
+    Year NUMBER,
+    CCode VARCHAR2(20),
+    Mark NUMBER,
+    Grade CHAR(1)
+);
+
+-- 2. Insert 5 records into student
+INSERT INTO Student VALUES ('Alice', '001', 'CSE', 3, 'CSE2001', 75, 'A');
+INSERT INTO Student VALUES ('Bob', '002', 'ECE', 2, 'ECE2002', 88, 'B');
+INSERT INTO Student VALUES ('Charlie', '003', 'MECH', 4, 'MECH2003', 92, 'A');
+INSERT INTO Student VALUES ('David', '004', 'CSE', 3, 'CSE2003', 67, 'S');
+INSERT INTO Student VALUES ('Eve', '005', 'CSE', 3, 'CSE2001', 82, 'A');
+
+-- 3. Display the maximum and minimum mark
+SELECT MAX(Mark) AS Max_Mark, MIN(Mark) AS Min_Mark FROM Student;
+
+-- 4. Display the average of mark column
+SELECT AVG(Mark) AS Avg_Mark FROM Student;
+
+-- 5. Display the average of all marks for each department
+SELECT Dept, AVG(Mark) AS Avg_Mark FROM Student GROUP BY Dept;
+
+-- 6. Display sum of all marks
+SELECT SUM(Mark) AS Total_Marks FROM Student;
+
+-- 7. Display the department and sum of all marks for each department
+SELECT Dept, SUM(Mark) AS Total_Marks FROM Student GROUP BY Dept;
+
+-- 8. Display the number of students in the student table
+SELECT COUNT(*) AS Total_Students FROM Student;
+
+-- 9. Display the number of students scored S grade in BCSE302
+-- Assuming BCSE302 is a course code and it exists in the data
+-- INSERT INTO Student VALUES ('Frank', '006', 'CSE', 3, 'BCSE302', 90, 'S'); -- Sample data insertion for demonstration
+SELECT COUNT(*) AS Students_Scored_S FROM Student WHERE Grade = 'S' AND CCode = 'BCSE302';
+
+-- 10. Display the number of students scored S grade in CSE2003
+SELECT COUNT(*) AS Students_Scored_S FROM Student WHERE Grade = 'S' AND CCode = 'CSE2003';
+
+-- 11. Display the course name maximum and minimum mark of each course
+SELECT CCode, MAX(Mark) AS Max_Mark, MIN(Mark) AS Min_Mark FROM Student GROUP BY CCode;
+
+-- 12. Display the name of department, minimum, maximum, average and sum of mark for each department
+SELECT Dept, MIN(Mark) AS Min_Mark, MAX(Mark) AS Max_Mark, AVG(Mark) AS Avg_Mark, SUM(Mark) AS Total_Marks FROM Student GROUP BY Dept;
+
+-- 13. Display the name of department, maximum and minimum mark for each department
+SELECT Dept, MAX(Mark) AS Max_Mark, MIN(Mark) AS Min_Mark FROM Student GROUP BY Dept;
+
+-- 14. Display the course code, minimum and maximum mark of each course code
+SELECT CCode, MIN(Mark) AS Min_Mark, MAX(Mark) AS Max_Mark FROM Student GROUP BY CCode;
+
+-- 15. Display the student name who secured maximum and minimum mark
+SELECT Name FROM Student WHERE Mark = (SELECT MAX(Mark) FROM Student) UNION
+SELECT Name FROM Student WHERE Mark = (SELECT MIN(Mark) FROM Student);

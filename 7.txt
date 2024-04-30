@@ -1,0 +1,124 @@
+-- Creating tables
+CREATE TABLE Customer (
+    Acno VARCHAR2(20),
+    Cid VARCHAR2(20),
+    Name VARCHAR2(100),
+    Address VARCHAR2(200),
+    DoB DATE,
+    MobileNo VARCHAR2(15)
+);
+
+CREATE TABLE Deposit (
+    Dno VARCHAR2(20),
+    Cid VARCHAR2(20),
+    Amount NUMBER
+);
+
+CREATE TABLE Loan (
+    Lno VARCHAR2(20),
+    Cid VARCHAR2(20),
+    Amount NUMBER
+);
+
+-- Inserting data into Customer
+INSERT INTO Customer VALUES ('AC001', 'C001', 'Alice', '1234 Street', TO_DATE('1980-01-01', 'YYYY-MM-DD'), '1234567890');
+INSERT INTO Customer VALUES ('AC002', 'C002', 'Bob', '5678 Avenue', TO_DATE('1985-02-01', 'YYYY-MM-DD'), '0987654321');
+INSERT INTO Customer VALUES ('AC003', 'C003', 'Charlie', '91011 Drive', TO_DATE('1990-03-01', 'YYYY-MM-DD'), '1122334455');
+INSERT INTO Customer VALUES ('AC004', 'C004', 'David', '1213 Lane', TO_DATE('1983-04-01', 'YYYY-MM-DD'), '2233445566');
+INSERT INTO Customer VALUES ('AC005', 'C005', 'Eve', '1415 Boulevard', TO_DATE('1992-05-01', 'YYYY-MM-DD'), '3344556677');
+
+-- Inserting data into Deposit
+INSERT INTO Deposit VALUES ('D001', 'C001', 5000);
+INSERT INTO Deposit VALUES ('D002', 'C002', 6000);
+INSERT INTO Deposit VALUES ('D003', 'C001', 7000);
+INSERT INTO Deposit VALUES ('D004', 'C003', 8000);
+INSERT INTO Deposit VALUES ('D005', 'C005', 9000);
+
+-- Inserting data into Loan
+INSERT INTO Loan VALUES ('L001', 'C001', 10000);
+INSERT INTO Loan VALUES ('L002', 'C004', 11000);
+INSERT INTO Loan VALUES ('L003', 'C003', 12000);
+INSERT INTO Loan VALUES ('L004', 'C005', 13000);
+INSERT INTO Loan VALUES ('L005', 'C002', 14000);
+
+-- Committing changes
+COMMIT;
+
+-- 2. Display CId of the customers those who have both deposit and loan
+SELECT DISTINCT d.Cid
+FROM Deposit d
+JOIN Loan l ON d.Cid = l.Cid;
+
+-- 3. Display Cid of the customers those who have only deposit
+SELECT d.Cid
+FROM Deposit d
+WHERE d.Cid NOT IN (SELECT Cid FROM Loan);
+
+-- 4. Display Cid of the customers those who have only loan
+SELECT l.Cid
+FROM Loan l
+WHERE l.Cid NOT IN (SELECT Cid FROM Deposit);
+
+-- 5. Display Cid and Name of the customers those who have both deposit and loan
+SELECT DISTINCT d.Cid, c.Name
+FROM Deposit d
+JOIN Loan l ON d.Cid = l.Cid
+JOIN Customer c ON d.Cid = c.Cid;
+
+-- 6. Display Cid and Name of the customers those who have only deposit
+SELECT d.Cid, c.Name
+FROM Deposit d
+JOIN Customer c ON d.Cid = c.Cid
+WHERE d.Cid NOT IN (SELECT Cid FROM Loan);
+
+-- 7. Display Cid and Name of the customers those who have only loan
+SELECT l.Cid, c.Name
+FROM Loan l
+JOIN Customer c ON l.Cid = c.Cid
+WHERE l.Cid NOT IN (SELECT Cid FROM Deposit);
+
+-- 1. Create a view called Vname that consists of all the customer’s name and account number
+CREATE VIEW Vname AS
+SELECT Name, Acno FROM Customer;
+
+-- 2. Create a view that consists of Cid and Name of the customers those who have both deposit and loan
+CREATE VIEW Both_Deposit_Loan AS
+SELECT DISTINCT d.Cid, c.Name
+FROM Deposit d
+JOIN Loan l ON d.Cid = l.Cid
+JOIN Customer c ON d.Cid = c.Cid;
+
+-- 3. Create a view that consists of Cid and Name of the customers those who have only deposit
+CREATE VIEW Only_Deposit AS
+SELECT d.Cid, c.Name
+FROM Deposit d
+JOIN Customer c ON d.Cid = c.Cid
+WHERE d.Cid NOT IN (SELECT Cid FROM Loan);
+
+-- 4. Create a view that consists of Cid and Name of the customers those who have only loan
+CREATE VIEW Only_Loan AS
+SELECT l.Cid, c.Name
+FROM Loan l
+JOIN Customer c ON l.Cid = c.Cid
+WHERE l.Cid NOT IN (SELECT Cid FROM Deposit);
+
+-- 5. Check insert/update/delete operations with Vname view
+-- INSERT INTO Vname (Name, Acno) VALUES ('Frank', 'AC006'); -- This will fail as it's not an updatable view
+-- UPDATE Vname SET Name = 'Frank' WHERE Acno = 'AC001'; -- This might fail depending on the DBMS
+-- DELETE FROM Vname WHERE Acno = 'AC001'; -- This will fail as it's not a deletable view
+
+-- 6. Delete the view Vname
+DROP VIEW Vname;
+
+-- 7. Check insert/update/delete operations with the views created by using set operations
+-- Similar to step 5, these operations will generally fail unless the view is defined to support them.
+
+-- 8. Create a view using join operation
+CREATE VIEW Customer_Loan_Deposit AS
+SELECT c.*, l.Amount AS LoanAmount, d.Amount AS DepositAmount
+FROM Customer c
+LEFT JOIN Loan l ON c.Cid = l.Cid
+LEFT JOIN Deposit d ON c.Cid = d.Cid;
+
+-- 9. Check insert/update/delete operations with the views created by using join operation
+-- These operations will generally fail unless specifically allowed by the view definition.
