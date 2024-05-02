@@ -1,4 +1,4 @@
-<!-- <!-- <!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -66,18 +66,18 @@ function addTask() {
         checkbox.type = 'checkbox';
         checkbox.onchange = function() {
             if (this.checked) {
-                li.remove(); // Remove the task when the checkbox is checked
+                li.remove(); 
             }
         };
 
-        li.textContent = newTask + " "; // Add a space before the checkbox for better readability
-        li.appendChild(checkbox); // Append checkbox after the task text
+        li.textContent = newTask + " "; 
+        li.appendChild(checkbox); 
         document.getElementById('taskList').appendChild(li);
-        input.value = ''; // Clear the input after adding
+        input.value = '';
     } else {
         alert("Please enter a task!");
     }
 }
 </script>
 </body>
-</html> -->
+</html>
